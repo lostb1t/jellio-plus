@@ -1,1 +1,13 @@
-{"Repositories": []}
+[
+    {
+        "guid": "e874be83-fe36-4568-abac-f5ce0574b410",
+        "name": "Jellio",
+        "description": "This plugin provides integration between Jellyfin and the Jellio service.\nCommunity-maintained fork with Jellyfin 10.11.x support.\n",
+        "overview": "Integrates Jellio features with Jellyfin.",
+        "owner": "InfiniteAvenger",
+        "category": "General",
+        "versions": [
+
+        ]
+    }
+]
