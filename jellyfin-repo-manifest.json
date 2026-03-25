@@ -16,23 +16,5 @@
                 "timestamp": "2026-03-25T14:49:49Z"
             }
         ]
-    },
-    {
-        "guid": "e874be83-fe36-4568-abac-f5ce0574b409",
-        "name": "Jellio",
-        "description": "This plugin provides integration between Jellyfin and the Jellio service.\nCommunity-maintained fork with Jellyfin 10.11.x support.\n",
-        "overview": "Integrates Jellio features with Jellyfin.",
-        "owner": "InfiniteAvenger",
-        "category": "General",
-        "versions": [
-            {
-                "version": "1.0.0.0",
-                "changelog": "",
-                "targetAbi": "10.11.0.0",
-                "sourceUrl": "https://github.com/lostb1t/jellio-plus/releases/download/v1.0.0/jellio_1.0.0.0.zip",
-                "checksum": "624d76e65e9a3f3df1560f2bf6cf5680",
-                "timestamp": "2026-03-25T14:47:37Z"
-            }
-        ]
     }
 ]
