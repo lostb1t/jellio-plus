@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
@@ -173,11 +174,19 @@ public class AddonController : ControllerBase
                 //var streamUrl = $"{baseUrl}/videos/{dto.Id}/stream?mediaSourceId={source.Id}&api_key={Uri.EscapeDataString(authToken)}&Static=true&AllowVideoStreamCopy=true&AllowAudioStreamCopy=true&CopyTimestamps=true";
                 var streamUrl = $"{baseUrl}/Items/{source.Id}/Download?api_key={Uri.EscapeDataString(authToken)}";
 LogBuffer.AddLog($"[Stream] Generated stream for {dto.Name} ({dto.Id}): {source.Name} - URL: {streamUrl}", LogLevel.Info);
+                var filename = !string.IsNullOrEmpty(source.Path)
+                    ? Path.GetFileName(source.Path)
+                    : source.Name;
+
                 return new StreamDto
                 {
                     Url = streamUrl,
                     Name = "Jellio",
-                    Description = source.Name,
+                    BehaviorHints = new BehaviorHintsDto
+                    {
+                        VideoSize = source.Size,
+                        Filename = filename,
+                    },
                 };
             });
         }).ToList();
