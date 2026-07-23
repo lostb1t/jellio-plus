@@ -273,15 +273,18 @@ LogBuffer.AddLog($"[Stream] Generated stream for {dto.Name} ({dto.Id}): {source.
                     {
                         VideoSize = source.Size,
                         Filename = filename,
-                        MediaInfo = new MediaInfoDto
+                        Other = new BehaviorHintsOtherDto
                         {
-                            Filename = filename ?? string.Empty,
-                            Container = source.Container ?? string.Empty,
-                            Size = source.Size ?? 0L,
-                            Duration = totalDuration,
-                            Tracks = tracks,
-                            Bitrate = source.Bitrate,
-                            Chapters = chapters,
+                            MediaInfo = new MediaInfoDto
+                            {
+                                Filename = filename ?? string.Empty,
+                                Container = source.Container ?? string.Empty,
+                                Size = source.Size ?? 0L,
+                                Duration = totalDuration,
+                                Tracks = tracks,
+                                Bitrate = source.Bitrate,
+                                Chapters = chapters,
+                            },
                         },
                     },
                 };
