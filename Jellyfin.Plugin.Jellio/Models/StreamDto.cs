@@ -12,4 +12,7 @@ public class StreamDto
 
     [JsonPropertyName("behaviorHints")]
     public required BehaviorHintsDto BehaviorHints { get; set; }
+
+    [JsonPropertyName("mediaInfo")]
+    public MediaInfoDto? MediaInfo { get; set; }
 }

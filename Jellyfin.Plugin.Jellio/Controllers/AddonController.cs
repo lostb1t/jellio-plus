@@ -178,6 +178,93 @@ LogBuffer.AddLog($"[Stream] Generated stream for {dto.Name} ({dto.Id}): {source.
                     ? Path.GetFileName(source.Path)
                     : source.Name;
 
+                var tracks = new List<TrackDto>();
+                if (source.MediaStreams != null)
+                {
+                    foreach (var stream in source.MediaStreams)
+                    {
+                        TrackDto? track = stream.Type switch
+                        {
+                            MediaStreamType.Video when stream.Codec != null => new VideoTrackDto
+                            {
+                                Idx = stream.Index,
+                                Codec = stream.Codec,
+                                Width = stream.Width ?? 0,
+                                Height = stream.Height ?? 0,
+                                AspectRatio = stream.AspectRatio,
+                                BitDepth = stream.BitDepth,
+                                Bitrate = stream.BitRate,
+                                ColorSpace = stream.ColorSpace,
+                                ColorTransfer = stream.ColorTransfer,
+                                ColorPrimaries = stream.ColorPrimaries,
+                                ColorRange = stream.ColorRange,
+                                Fps = stream.RealFrameRate,
+                                Interlacing = stream.IsInterlaced ? true : null,
+                                PixelFormat = stream.PixelFormat,
+                                Profile = stream.Profile,
+                                ReferenceFrames = stream.RefFrames,
+                            },
+                            MediaStreamType.Audio when stream.Codec != null => new AudioTrackDto
+                            {
+                                Idx = stream.Index,
+                                Codec = stream.Codec,
+                                Channels = stream.Channels ?? 0,
+                                SampleRate = stream.SampleRate ?? 0,
+                                BitDepth = stream.BitDepth,
+                                Bitrate = stream.BitRate,
+                                ChannelLayout = stream.ChannelLayout,
+                                CodecTag = stream.CodecTag,
+                                Language = stream.Language,
+                                Profile = stream.Profile,
+                                Title = stream.Title,
+                                Default = stream.IsDefault ? true : null,
+                                Forced = stream.IsForced ? true : null,
+                                External = stream.IsExternal ? true : null,
+                            },
+                            MediaStreamType.Subtitle => new SubtitleTrackDto
+                            {
+                                Idx = stream.Index,
+                                Codec = stream.Codec,
+                                Language = stream.Language,
+                                Title = stream.Title,
+                                Default = stream.IsDefault ? true : null,
+                                Forced = stream.IsForced ? true : null,
+                                HearingImpaired = stream.IsHearingImpaired ? true : null,
+                                External = stream.IsExternal ? true : null,
+                            },
+                            _ => null,
+                        };
+
+                        if (track != null)
+                        {
+                            tracks.Add(track);
+                        }
+                    }
+                }
+
+                var totalDuration = (source.RunTimeTicks ?? 0L) / 10_000_000.0;
+
+                List<ChapterDto>? chapters = null;
+                if (dto.Chapters is { Count: > 0 })
+                {
+                    chapters = dto.Chapters
+                        .Select((ch, i) =>
+                        {
+                            var startSecs = ch.StartPositionTicks / 10_000_000.0;
+                            double? endSecs = i + 1 < dto.Chapters.Count
+                                ? dto.Chapters[i + 1].StartPositionTicks / 10_000_000.0
+                                : (totalDuration > 0 ? totalDuration : null);
+                            return new ChapterDto
+                            {
+                                Id = i,
+                                StartTime = startSecs,
+                                EndTime = endSecs,
+                                Title = ch.Name,
+                            };
+                        })
+                        .ToList();
+                }
+
                 return new StreamDto
                 {
                     Url = streamUrl,
@@ -186,6 +273,16 @@ LogBuffer.AddLog($"[Stream] Generated stream for {dto.Name} ({dto.Id}): {source.
                     {
                         VideoSize = source.Size,
                         Filename = filename,
+                    },
+                    MediaInfo = new MediaInfoDto
+                    {
+                        Filename = filename ?? string.Empty,
+                        Container = source.Container ?? string.Empty,
+                        Size = source.Size ?? 0L,
+                        Duration = totalDuration,
+                        Tracks = tracks,
+                        Bitrate = source.Bitrate,
+                        Chapters = chapters,
                     },
                 };
             });
