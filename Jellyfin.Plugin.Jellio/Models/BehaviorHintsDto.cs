@@ -9,4 +9,7 @@ public class BehaviorHintsDto
 
     [JsonPropertyName("filename")]
     public string? Filename { get; set; }
+
+    [JsonPropertyName("mediaInfo")]
+    public MediaInfoDto? MediaInfo { get; set; }
 }
