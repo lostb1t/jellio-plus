@@ -170,9 +170,7 @@ public class AddonController : ControllerBase
 
             return dto.MediaSources.Select(source =>
             {
-                //var streamUrl = $"{baseUrl}/videos/{dto.Id}/stream?mediaSourceId={source.Id}&api_key={Uri.EscapeDataString(authToken)}&AudioCodec=aac&TranscodingMaxAudioChannels=2&CopyTimestamps=true";
-                //var streamUrl = $"{baseUrl}/videos/{dto.Id}/stream?mediaSourceId={source.Id}&api_key={Uri.EscapeDataString(authToken)}&Static=true&AllowVideoStreamCopy=true&AllowAudioStreamCopy=true&CopyTimestamps=true";
-                var streamUrl = $"{baseUrl}/Items/{source.Id}/Download?api_key={Uri.EscapeDataString(authToken)}";
+                var streamUrl = $"{baseUrl}/Videos/{source.Id}/stream?api_key={Uri.EscapeDataString(authToken)}&Static=true";
 LogBuffer.AddLog($"[Stream] Generated stream for {dto.Name} ({dto.Id}): {source.Name} - URL: {streamUrl}", LogLevel.Info);
                 var filename = !string.IsNullOrEmpty(source.Path)
                     ? Path.GetFileName(source.Path)
