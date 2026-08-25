@@ -8,6 +8,14 @@
         "category": "General",
         "versions": [
             {
+                "version": "1.0.7.0",
+                "changelog": "fix: use item ID in stream URL with MediaSourceId param so Jellyfin serves the correct version for multi-version libraries",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://github.com/lostb1t/jellio-plus/releases/download/v1.0.7/jellio_1.0.7.0.zip",
+                "checksum": "56fcf0fe7513ea4cfc821ab19bd68e23",
+                "timestamp": "2026-08-25T09:59:29Z"
+            },
+            {
                 "version": "1.0.6.0",
                 "changelog": "fix: use /Videos/{id}/stream?Static=true instead of /Items/{id}/Download to avoid Content-Disposition: attachment breaking direct playback",
                 "targetAbi": "10.11.0.0",
